@@ -14,7 +14,7 @@ http://localhost:8000
 
 # Production docker image
 
-Builds minimal webserver docker image using darkhttpd (one C file). Image size withot data: 88.4kB)
+Builds minimal webserver docker image using darkhttpd (one C file, image size withot data: 88.4kB)
 
 After every change to the source files run:
 
