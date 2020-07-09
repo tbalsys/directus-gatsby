@@ -1,0 +1,11 @@
+version: "3.4"
+
+services:
+  prod:
+    build:
+      context: .
+      args:
+        - DIRECTUS_URL
+        - DIRECTUS_TOKEN
+    ports:
+      - "80:80"
