@@ -36,6 +36,9 @@ const BlogPost: React.FC<PageProps<DataProps>> = ({
       <p dangerouslySetInnerHTML={{__html: post.content}} />
 
       <Link to="/">Go back to the homepage</Link>
+
+      <script defer src="https://commento-dev.balsys.eu.org/js/commento.js"></script>
+      <div id="commento"></div>
     </Layout>
   );
 
