@@ -3,7 +3,7 @@ import React from 'react';
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import Commento from "./commento"
+import Comments from "./comments"
 
 type DataProps = {
   directusPost: {
@@ -32,13 +32,13 @@ const BlogPost: React.FC<PageProps<DataProps>> = ({
 
   return (
     <Layout>
-    <SEO title="Blog" />
+      <SEO title="Blog" />
       <h1>{post.title}</h1>
       <p dangerouslySetInnerHTML={{__html: post.content}} />
 
       <Link to="/">Go back to the homepage</Link>
 
-      <Commento id={post.directusId} />
+      <Comments id={post.directusId} />
     </Layout>
   );
 
