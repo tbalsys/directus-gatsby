@@ -1,4 +1,5 @@
 import { PageProps, Link, graphql } from 'gatsby';
+import { CommnetoAuthProvider, CommentsPage } from 'commento-react'
 import React from 'react';
 
 import Layout from "../components/layout"
@@ -37,8 +38,9 @@ const BlogPost: React.FC<PageProps<DataProps>> = ({
 
       <Link to="/">Go back to the homepage</Link>
 
-      <script defer src="https://commento-dev.balsys.eu.org/js/commento.js"></script>
-      <div id="commento"></div>
+      <CommnetoAuthProvider commentoOrigin="https://commento-dev.balsys.eu.org" >
+        <CommentsPage pageId={post.directusId} />
+      </CommnetoAuthProvider>
     </Layout>
   );
 
