@@ -16,7 +16,7 @@ module.exports = {
           token: process.env.DIRECTUS_TOKEN,
         },
         targetStatuses: ['published', '__NONE__'],
-        downloadFiles: false,
+        downloadFiles: true,
       },
     },
     `gatsby-plugin-react-helmet`,
