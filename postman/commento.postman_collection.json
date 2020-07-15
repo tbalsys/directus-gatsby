@@ -1,0 +1,628 @@
+{
+	"info": {
+		"_postman_id": "c7cbe0d6-34a7-4253-bcdd-e9d4d5efa626",
+		"name": "commento.io",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "commenter",
+			"item": [
+				{
+					"name": "token",
+					"item": [
+						{
+							"name": "new",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "04d17824-d4d0-4649-970d-a890b08dcdd5",
+										"exec": [
+											"pm.environment.set(\"commenterToken\",",
+											"  pm.response.json().commenterToken",
+											");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/commenter/token/new",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"commenter",
+										"token",
+										"new"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "self",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "61721ff0-2c5d-4bc8-a9fb-5b680047a39d",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"commenterToken\":\"{{commenterToken}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/commenter/self",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"commenter",
+								"self"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2c75413b-21e7-48ba-a902-42e254012d2f",
+								"exec": [
+									"pm.environment.set(\"commenterToken\",",
+									"  pm.response.json().commenterToken",
+									");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"{{admin_email}}\",\n    \"password\":\"{{admin_password}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/commenter/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"commenter",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "comment",
+			"item": [
+				{
+					"name": "list",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"commenterToken\": \"{{commenterToken}}\",\n    \"domain\":\"{{domain}}\",\n    \"path\":\"{{path}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/comment/list",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"comment",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "new",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "374fc95c-2582-45dc-8db7-0cce094638d6",
+								"exec": [
+									"pm.environment.set(\"commentHex\",",
+									"  pm.response.json().commentHex",
+									");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"commenterToken\": \"{{commenterToken}}\",\n    \"domain\":\"{{domain}}\",\n    \"path\":\"{{path}}\",\n    \"parentHex\":\"root\",\n    \"markdown\":\"This is a **new** comment\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/comment/new",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"comment",
+								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reply",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "da97e825-4003-4849-80ea-1b34fe9c0a12",
+								"exec": [
+									"pm.environment.set(\"commentHex\",",
+									"  pm.response.json().commentHex",
+									");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"commenterToken\": \"{{commenterToken}}\",\n    \"domain\":\"{{domain}}\",\n    \"path\":\"{{path}}\",\n    \"parentHex\":\"{{commentHex}}\",\n    \"markdown\":\"This is a **reply** comment\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/comment/new",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"comment",
+								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "56c1d65a-439c-41e0-ac66-65c8f818aac4",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"commenterToken\": \"{{commenterToken}}\",\n    \"commentHex\":\"{{commentHex}}\",\n    \"markdown\":\"This is an _edited_ comment\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/comment/edit",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"comment",
+								"edit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"commenterToken\":\"{{commenterToken}}\",\n    \"commentHex\":\"{{commentHex}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/comment/delete",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"comment",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "approve",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"commenterToken\":\"{{commenterToken}}\",\n    \"commentHex\":\"{{commentHex}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/comment/approve",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"comment",
+								"approve"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "upvote",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5268ff6e-be75-4663-b85e-dbfaf82d09ce",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"commenterToken\": \"{{commenterToken}}\",\n    \"commentHex\": \"{{commentHex}}\",\n    \"direction\": 1\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/comment/vote",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"comment",
+								"vote"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "downvote",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "53b37b9a-0995-4075-b18d-9c7a88777848",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"commenterToken\": \"{{commenterToken}}\",\n    \"commentHex\": \"{{commentHex}}\",\n    \"direction\": -1\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/comment/vote",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"comment",
+								"vote"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "count",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"domain\": \"{{domain}}\",\n    \"paths\": [\"{{path}}\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/comment/count",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"comment",
+								"count"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "page",
+			"item": [
+				{
+					"name": "star",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"commenterToken\": \"{{commenterToken}}\",\n    \"domain\": \"{{domain}}\",\n    \"path\": \"{{path}}\",\n    \"attributes\": {\n        \"isLocked\": false,\n        \"stickyCommentHex\": \"{{commentHex}}\"\n    }\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/page/update",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"page",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "unstar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"commenterToken\": \"{{commenterToken}}\",\n    \"domain\": \"{{domain}}\",\n    \"path\": \"{{path}}\",\n    \"attributes\": {\n        \"isLocked\": false,\n        \"stickyCommentHex\": \"none\"\n    }\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/page/update",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"page",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "lock",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"commenterToken\": \"{{commenterToken}}\",\n    \"domain\": \"{{domain}}\",\n    \"path\": \"{{path}}\",\n    \"attributes\": {\n        \"isLocked\": true,\n        \"stickyCommentHex\": \"none\"\n    }\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/page/update",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"page",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "unlock",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"commenterToken\": \"{{commenterToken}}\",\n    \"domain\": \"{{domain}}\",\n    \"path\": \"{{path}}\",\n    \"attributes\": {\n        \"isLocked\": false,\n        \"stickyCommentHex\": \"none\"\n    }\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/page/update",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"page",
+								"update"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "oauth",
+			"item": [
+				{
+					"name": "google",
+					"item": [
+						{
+							"name": "redirect",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://commento-dev.balsys.eu.org/api/oauth/google/redirect?commenterToken={{commenterToken}}",
+									"protocol": "https",
+									"host": [
+										"commento-dev",
+										"balsys",
+										"eu",
+										"org"
+									],
+									"path": [
+										"api",
+										"oauth",
+										"google",
+										"redirect"
+									],
+									"query": [
+										{
+											"key": "commenterToken",
+											"value": "{{commenterToken}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
