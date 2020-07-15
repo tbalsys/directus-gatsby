@@ -19,6 +19,7 @@ type DataProps = {
 export const query = graphql`
   query($directusId: Int!) {
     directusPost(directusId: {eq: $directusId}) {
+      directusId
       title
       content
     }
