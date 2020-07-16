@@ -1,0 +1,495 @@
+{
+	"info": {
+		"_postman_id": "99390bd8-8e90-4e1f-ba82-7016ccc526d1",
+		"name": "Directus",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "authenticate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b884e2c4-30fe-4b1e-a664-a6ce10bb9608",
+								"exec": [
+									"pm.environment.set(\"token\",",
+									"  pm.response.json().data.token",
+									");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"{{admin_email}}\",\n  \"password\": \"{{admin_password}}\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{project}}/auth/authenticate",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{project}}",
+								"auth",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sso",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{project}}/auth/sso",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{project}}",
+								"auth",
+								"sso"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "google",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{project}}/auth/sso/google?mode=cookie&redirect_url={{baseUrl}}/{{project}}/auth/sso/google/callback",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{project}}",
+								"auth",
+								"sso",
+								"google"
+							],
+							"query": [
+								{
+									"key": "mode",
+									"value": "cookie"
+								},
+								{
+									"key": "redirect_url",
+									"value": "{{baseUrl}}/{{project}}/auth/sso/google/callback"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "scim",
+			"item": [
+				{
+					"name": "Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{project}}/scim/v2/Users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{project}}",
+								"scim",
+								"v2",
+								"Users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"schemas\":[\"urn:ietf:params:scim:schemas:core:2.0:User\"],\n  \"externalId\":\"dschrute\",\n  \"userName\":\"dschrute@example.com\",\n  \"name\":{\n    \"familyName\":\"Schrute\",\n    \"givenName\":\"Dwight\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{project}}/scim/v2/Users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{project}}",
+								"scim",
+								"v2",
+								"Users"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "items",
+			"item": [
+				{
+					"name": "posts",
+					"item": [
+						{
+							"name": "list",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/{{project}}/items/posts",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"{{project}}",
+										"items",
+										"posts"
+									],
+									"query": [
+										{
+											"key": "fields",
+											"value": "id,title",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "comments",
+					"item": [
+						{
+							"name": "list",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/{{project}}/items/comments?filter[path][eq]=/blog/1&filter[status][eq]=published",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"{{project}}",
+										"items",
+										"comments"
+									],
+									"query": [
+										{
+											"key": "filter[path][eq]",
+											"value": "/blog/1"
+										},
+										{
+											"key": "fields",
+											"value": "id,name,body,created_on,modified_on",
+											"disabled": true
+										},
+										{
+											"key": "filter[status][eq]",
+											"value": "published"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "retrieve",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/{{project}}/items/comments/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"{{project}}",
+										"items",
+										"comments",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "8"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"path\": \"/blog/1\",\n  \"author\": \"Tomas\",\n  \"body\": \"Other comment\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/{{project}}/items/comments",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"{{project}}",
+										"items",
+										"comments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"body\": \"API comment\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/{{project}}/items/comments/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"{{project}}",
+										"items",
+										"comments",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "8"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/{{project}}/items/comments/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"{{project}}",
+										"items",
+										"comments",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "ee8c832b-a641-4c86-89ba-0e66415965f1",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "91315319-f746-4c9e-af6e-4b5322ddab70",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "server",
+			"item": [
+				{
+					"name": "info",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/server/info",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"server",
+								"info"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "projects",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/server/projects",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"server",
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ping",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/server/ping",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"server",
+								"ping"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "4aca1d45-8d70-488a-b7ff-d7e06d94afd4",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "671b84df-fafd-4406-977b-a3481e58a14a",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
