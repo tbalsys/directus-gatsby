@@ -3,7 +3,7 @@ import React from 'react';
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import Comments from "./directus-comments"
+import Comments from "./comments"
 
 type DataProps = {
   directusPost: {
@@ -37,9 +37,9 @@ const BlogPost: React.FC<PageProps<DataProps>> = ({
       <h1>{post.title}</h1>
       <p dangerouslySetInnerHTML={{__html: post.content}} />
 
-      <Comments path={`/blog/${post.directusId}`} />
-
       <Link to="/">Go back to the homepage</Link>
+
+      <Comments id={post.directusId} />
     </Layout>
   );
 
