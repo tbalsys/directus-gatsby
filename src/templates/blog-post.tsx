@@ -37,9 +37,9 @@ const BlogPost: React.FC<PageProps<DataProps>> = ({
       <h1>{post.title}</h1>
       <p dangerouslySetInnerHTML={{__html: post.content}} />
 
-      <Link to="/">Go back to the homepage</Link>
-
       <Comments path={`/blog/${post.directusId}`} />
+
+      <Link to="/">Go back to the homepage</Link>
     </Layout>
   );
 

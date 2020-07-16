@@ -1,0 +1,24 @@
+.message {
+  display: flex;
+  flex-direction: column;
+}
+
+.metadata {
+  display: flex;
+}
+
+.author {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-right: 1em;
+}
+
+.author input {
+  margin-bottom: 1em;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+}
