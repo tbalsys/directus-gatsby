@@ -1,0 +1,158 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: "directus"
+      MYSQL_USER: "directus"
+      MYSQL_PASSWORD: "directus"
+      MYSQL_ROOT_PASSWORD: "directus"
+    volumes:
+      - directus_data:/var/lib/mysql
+
+  directus:
+    image: directus/directus:v8-apache
+    ports:
+      - "8021:80"
+    environment:
+      DIRECTUS_APP_ENV: "production"
+      DIRECTUS_AUTH_PUBLICKEY: "uhaiRie3jia0heik"
+      DIRECTUS_AUTH_SECRETKEY: "Copheazeiy8iw1ve"
+      DIRECTUS_DATABASE_HOST: "mysql"
+      DIRECTUS_DATABASE_PORT: "3306"
+      DIRECTUS_DATABASE_NAME: "directus"
+      DIRECTUS_DATABASE_USERNAME: "directus"
+      DIRECTUS_DATABASE_PASSWORD: "directus"
+      DIRECTUS_INSTALL_TITLE: CodiLime
+      DIRECTUS_INSTALL_EMAIL: tomas.balsys@codilime.com
+      DIRECTUS_INSTALL_PASSWORD: d1r3ctu5
+      DIRECTUS_AUTH_SOCIALPROVIDERS_GOOGLE_CLIENTID: 808022496062-fe7gnceibrc5shbd74v5j3g9ojiqujhk.apps.googleusercontent.com
+      DIRECTUS_AUTH_SOCIALPROVIDERS_GOOGLE_CLIENTSECRET: fX3C5pqxcSQ9b41ZPx-B4QIG
+      DIRECTUS_AUTH_SOCIALPROVIDERS_GOOGLE_HOSTEDDOMAIN: "*"
+      DIRECTUS_AUTH_SOCIALPROVIDERS_GOOGLE_USEOIDCMODE: "false"
+    volumes:
+      - directus_config:/var/directus/config
+      - directus_uploads:/var/directus/public/uploads    
+
+  commento:
+    image: registry.gitlab.com/commento/commento:latest
+    ports:
+      - 8022:8080
+    environment:
+      COMMENTO_ORIGIN: https://commento-dev.balsys.eu.org
+      COMMENTO_PORT: 8080
+      COMMENTO_POSTGRES: postgres://postgres:postgres@postgres:5432/commento?sslmode=disable
+      COMMENTO_FORBID_NEW_OWNERS: "true"
+      COMMENTO_GOOGLE_KEY: 808022496062-fe7gnceibrc5shbd74v5j3g9ojiqujhk.apps.googleusercontent.com
+      COMMENTO_GOOGLE_SECRET: fX3C5pqxcSQ9b41ZPx-B4QIG
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_DB: commento
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - commento_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  remark42:
+      image: umputun/remark42:latest
+      hostname: "remark42-dev"
+
+      ports:
+          - "8023:8080" # primary rest server
+          - "8024:8084" # local oauth2 server
+
+      environment:
+          - REMARK_URL=https://remark42-dev.balsys.eu.org
+          - SECRET=Aephohsheiquei4Foy2quohJochova1U
+          - SITE=directus-gatsby.netlify.app
+          - STORE_BOLT_PATH=/srv/var/db
+          - BACKUP_PATH=/srv/var/backup
+          - DEBUG=true
+          - ADMIN_PASSWD=password
+          - EMOJI=true
+          - ANON_VOTE=true
+          - VOTES_IP=true
+          - AUTH_EMAIL_ENABLE=true
+          - AUTH_ANON=true
+          - AUTH_GOOGLE_CID=808022496062-fe7gnceibrc5shbd74v5j3g9ojiqujhk.apps.googleusercontent.com
+          - AUTH_GOOGLE_CSEC=fX3C5pqxcSQ9b41ZPx-B4QIG
+      volumes:
+          - remark42_var:/srv/var
+
+  staticman:
+    build: .
+    ports:
+      - '8025:3000'
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      GITHUB_TOKEN: 252986938d3b94cfb5d400ff5e3b7f3f051a9942
+      RSA_PRIVATE_KEY: |
+        -----BEGIN RSA PRIVATE KEY-----
+        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
+        -----END RSA PRIVATE KEY-----
+      RSA_PUBLIC_KEY: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCpqy0jjoWuceJgkI7yUky1rVsLMJU0bfAwEVipgRko9rDeJwRaU6hLcrOXy0o4pdu7nQyIl2YX6HJWzCS8MUWR7pshUmE8KGWowGgWGJhROpsUWRswS5zZTFHBqacq2IDVvBgQxCqMJcWoUxTaBnYvk+qhk5oWHwBAbis1id/WHAHi5M2MUzgJ5FcEAEXlZQE9FIfypQOMOSidu9kbuYoG8JIOc2X4n6xSFD1eZ9yZ3AGRZhZUIDNJiNePFmOLqwwpUq39Nb5bYaB04B9QNumUP+RGnjva3dU1fZ4ZXyZLunshpAkeU/78kgoSiPnO53C3/GegQLVpn1FpYJ67nKfpoP2F4djkEFG28EiwcnfwmW8LLKBC4PNApeUX8jZ7OWObw7fV8QPqrxJ1Dp/yUtMDNmZnpBQ8FIVw2Cia2SUJTMcw/OPVIObzry22e98K/6aeNgu4ZINrHjGRRuZZjR1AYlzIcAp0LuI7GYRhGE/ZJ+FeaFbrmFTQy5QYxbI/C0mtRMKeAKrq+OTnbAr/f5DqTlNDFOuc7tcPO8SXnnhN1mOKQxGpUVk7APcQqMAt9XJPkowVpiDU9OqTAeaoV6EMRsIs4TceT4Ap/woYHZFu9RUrm1IYmuU05aeLXabtTTqQs3ndAcnJI5u14I505+8n+HV08o2y18s+rxSYzf8pQQ== staticman@codilime
+
+volumes:
+  commento_data:
+  directus_data:
+  directus_config:
+  directus_uploads:
+  remark42_var:
+
