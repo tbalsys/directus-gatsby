@@ -37,7 +37,31 @@ const BlogPost: React.FC<PageProps<DataProps>> = ({
       <h1>{post.title}</h1>
       <p dangerouslySetInnerHTML={{__html: post.content}} />
 
-      <Comments path={`/blog/${post.directusId}`} />
+      <div>
+        <hr />
+        <h2>Comments</h2>
+        <p>No comments yet.</p>
+        <h3>Add a comment</h3>
+        <form
+          method="POST"
+          action="https://staticman.balsys.eu.org/v2/entry/tbalsys/directus-gatsby/master/comments"
+        >
+          <input
+            name="options[id]"
+            type="hidden"
+            value={post.directusId}
+          />
+          <input name="fields[name]" type="text" placeholder="Name" required />
+          <input
+            name="fields[email]"
+            type="email"
+            placeholder="Email"
+            required
+          />
+          <textarea name="fields[message]" placeholder="Comment" required />
+          <button type="submit">Submit Comment</button>
+        </form>
+      </div>
 
       <Link to="/">Go back to the homepage</Link>
     </Layout>
