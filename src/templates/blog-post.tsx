@@ -11,6 +11,16 @@ type DataProps = {
     title: string;
     content: string;
   }
+  allCommentsYaml: {
+    edges: {
+      node: {
+        id: string;
+        message: string;
+        name: string;
+        date: string;
+      }
+    }[];
+  }
 }
 
 // A static query, the results from which
@@ -23,13 +33,28 @@ export const query = graphql`
       title
       content
     }
+    allCommentsYaml(filter: { directusId: { eq: $directusId } }) {
+      edges {
+        node {
+          _id
+          date
+          email
+          message
+          name
+        }
+      }
+    }
   }
 `;
 
 // The component we'll render for a given blog post
 const BlogPost: React.FC<PageProps<DataProps>> = ({
-  data: { directusPost: post }
+  data: { directusPost: post, allCommentsYaml }
 }) => {
+
+  const comments = allCommentsYaml && Array.isArray(allCommentsYaml.edges)
+    ? allCommentsYaml.edges.map(edge => edge.node)
+    : [];
 
   return (
     <Layout>
@@ -40,7 +65,24 @@ const BlogPost: React.FC<PageProps<DataProps>> = ({
       <div>
         <hr />
         <h2>Comments</h2>
-        <p>No comments yet.</p>
+        {
+          comments.length ? (
+            comments.map(comment => (
+              <div key={comment.id}>
+                <p>
+                  Name: {comment.name}
+                  <br />
+                  Comment: {comment.message}
+                  <br />
+                  Date: {comment.date}
+                </p>
+              </div>
+            ))
+          ) : (
+            <p>No comments yet.</p>
+          )mment: comm
+Date: 1595236677
+        }
         <h3>Add a comment</h3>
         <form
           method="POST"
