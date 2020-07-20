@@ -80,8 +80,7 @@ const BlogPost: React.FC<PageProps<DataProps>> = ({
             ))
           ) : (
             <p>No comments yet.</p>
-          )mment: comm
-Date: 1595236677
+          )
         }
         <h3>Add a comment</h3>
         <form
