@@ -47,7 +47,7 @@ const BlogPost: React.FC<PageProps<DataProps>> = ({
           action="https://staticman.balsys.eu.org/v2/entry/tbalsys/directus-gatsby/master/comments"
         >
           <input
-            name="options[directusId]"
+            name="fields[directusId]"
             type="hidden"
             value={post.directusId}
           />
