@@ -27,13 +27,13 @@ type DataProps = {
 // will be passed to our component. Uses the 'directusId' property
 // passed via the `createPage` context config to retrieve the blog post.
 export const query = graphql`
-  query($directusId: Int!) {
-    directusPost(directusId: {eq: $directusId}) {
+  query($postIdInt: Int!, $postIdString: String!) {
+    directusPost(directusId: { eq: $postIdInt }) {
       directusId
       title
       content
     }
-    allCommentsYaml(filter: { directusId: { eq: $directusId } }) {
+    allCommentsYaml(filter: { postId: { eq: $postIdString } }) {
       edges {
         node {
           _id
@@ -49,9 +49,8 @@ export const query = graphql`
 
 // The component we'll render for a given blog post
 const BlogPost: React.FC<PageProps<DataProps>> = ({
-  data: { directusPost: post, allCommentsYaml }
+  data: { directusPost: post, allCommentsYaml },
 }) => {
-
   const comments = allCommentsYaml && Array.isArray(allCommentsYaml.edges)
     ? allCommentsYaml.edges.map(edge => edge.node)
     : [];
@@ -88,7 +87,7 @@ const BlogPost: React.FC<PageProps<DataProps>> = ({
           action="https://staticman.balsys.eu.org/v2/entry/tbalsys/directus-gatsby/master/comments"
         >
           <input
-            name="fields[directusId]"
+            name="fields[postId]"
             type="hidden"
             value={post.directusId}
           />

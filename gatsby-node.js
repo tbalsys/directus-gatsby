@@ -37,7 +37,10 @@ module.exports.createPages = async ({ graphql, actions }) => {
     createPage({
       path: `/blog/${post.directusId}`,
       component: path.resolve('./src/templates/blog-post.tsx'),
-      context: post,
+      context: {
+        postIdInt: post.directusId,
+        postIdString: `${post.directusId}`,
+      },
     });
   });
 };
